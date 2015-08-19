@@ -1,20 +1,16 @@
+#! /usr/bin/perl
 use strict;
 use warnings;
-use PGPLOT;
 use Text::CSV;
 use Cwd qw(cwd);
 #use String::Scanf;
 use Statistics::OLS;
 use PDL;
-use PDL::Graphics2D;
 use PDL::Constants qw(PI);
 use PDL::Fit::Polynomial qw(fitpoly1d);
-$ENV{PGPLOT_FOREGROUND} = "black";
-$ENV{PGPLOT_BACKGROUND} = "white";
 
-
-# This script is used to take SDSS x and y outputs and use them as inputs
-# for cutting out postage stamps.
+# This script is used to take SDSS x and y outputs and use them as inputs.
+# for cutting out postage stamps. Stripe 82 sizes are applied to DR7 images.
 
 open my $inPositions, '<', "result_S82.csv" or die "cannot open result_S82.csv: $!"; #Change the input to your input file with the galaxy coordinates
 open my $DR7, '>', "S82_DR7_Sizes.csv" or die "cannot open S82_DR7_Sizes.csv: $!"; #Required for SDSS DR7 Cutouts

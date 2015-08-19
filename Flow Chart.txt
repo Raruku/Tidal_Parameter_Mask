@@ -1,0 +1,15 @@
+Flow Chart
+
+DEEP Images
+1) SDSS SQL Parameters
+2) SDSS S82 Image
+3) SDSS PSF Image
+4) SDSS Full image SExtractor
+5) SDSS Full image SExtractor parameters -> Postage-stamp image
+6) Postage-stamp image SExtractor
+7) SEGMASK-> pipe sizes to DR7 cutout pipeline
+8) GALFIT Postage-stamps
+9) Tidal_Parameter_Mask.pl -> makes R50 Mask and marries SEG mask and Tidal mask together
+10) Tidal parameter
+11) Tidal model parameter
+12) Corrected Tidal parameter

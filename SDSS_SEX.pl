@@ -88,7 +88,7 @@ WRITE_XML        N              # Write XML file (Y/N)?
 XML_NAME         sex.xml        # Filename for XML output
 ___end___
 
-		print $aper_all "sex ${nyuID}_$DataRelease.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
-		print "sex ${nyuID}_$DataRelease.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
-}	
+		print $aper_all "sex $fpC.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
+		print "sex $fpC.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
+	}	
 }

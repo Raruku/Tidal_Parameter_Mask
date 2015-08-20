@@ -3,23 +3,22 @@ use strict;
 use warnings;
 use Text::CSV;
 
+open my $aper_all, '>', 'aper_all.sh' or die "cannot open aper_all.sh: $!";
+
 my @DataRelease = qw /DR7 S82/;
+foreach my $DataRelease (@DataRelease) {
+	open my $input, '<', "result_$DataRelease.csv" or die "cannot open result_$DataRelease.csv: $!";
+	my $csv = Text::CSV->new({ binary => 1 });
+	$csv->column_names( $csv->getline($input) );
 
-open my $input, '<', "result_DR7.csv" or die "cannot open result_DR7.csv: $!";
-my $csv = Text::CSV->new({ binary => 1 });
-$csv->column_names( $csv->getline($input) );
+	while (my $row = $csv->getline_hr($input)) {
+		my $nyuID = $row->{col0};
+		open my $aper, '>', "${nyuID}_$DataRelease.aperture.sex "or die "Cannot open ${nyuID}_$DataRelease.aperture.sex: $!";
 
-open my $aper_all, '>', 'aper_all_DR7.sh' or die "cannot open aper_all_DR7.sh: $!";
-
-while (my $row = $csv->getline_hr($input)) {
-  my $nyuID = $row->{col0};
-
-  open my $aper, '>', "${nyuID}_DR7.aperture.sex" or die "Cannot open ${nyuID}_DR7.aperture.sex: $!";
-
-  print $aper <<___end___;
+		print $aper <<___end___;
 #-------------------------------- Catalog ------------------------------------
  
-CATALOG_NAME     ${nyuID}_DR7.aper.cat  # name of the output catalog
+CATALOG_NAME     ${nyuID}_$DataRelease.aper.cat  # name of the output catalog
 CATALOG_TYPE     ASCII_HEAD     # NONE,ASCII,ASCII_HEAD, ASCII_SKYCAT,
                                 # ASCII_VOTABLE, FITS_1.0 or FITS_LDAC
 PARAMETERS_NAME  test1.param  # name of the file containing catalog contents
@@ -74,7 +73,7 @@ CHECKIMAGE_TYPE  APERTURES   # can be NONE, BACKGROUND, BACKGROUND_RMS,
                                 # MINIBACKGROUND, MINIBACK_RMS, -BACKGROUND,
                                 # FILTERED, OBJECTS, -OBJECTS, SEGMENTATION,
                                 # or APERTURES
-CHECKIMAGE_NAME  ${nyuID}_DR7.aper.fits     # Filename for the check-image
+CHECKIMAGE_NAME  ${nyuID}_$DataRelease.aper.fits     # Filename for the check-image
  
 #--------------------- Memory (change with caution!) -------------------------
  
@@ -89,6 +88,7 @@ WRITE_XML        N              # Write XML file (Y/N)?
 XML_NAME         sex.xml        # Filename for XML output
 ___end___
 
-  print $aper_all "sex ${nyuID}_DR7.fits -c ${nyuID}_DR7.aperture.sex \n";
-  print "sex ${nyuID}_DR7.fits -c ${nyuID}_DR7.aperture.sex \n";
+		print $aper_all "sex ${nyuID}_$DataRelease.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
+		print "sex ${nyuID}_$DataRelease.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
+}	
 }

@@ -24,7 +24,6 @@ my @nyuID_S82 = map {$_->{'col0'}} @{$position_inputs_S82};
 my @px_S82 = map {$_->{'imgx'}} @{$position_inputs_S82};
 my @py_S82 = map {$_->{'imgy'}} @{$position_inputs_S82};
 my @run_S82 = map {$_->{'run'}} @{$position_inputs_S82};
-my @rerun_S82 = map {$_->{'rerun'}} @{$position_inputs_S82};
 my @cam_S82 = map {$_->{'camcol'}} @{$position_inputs_S82};
 my @field_S82 = map {$_->{'field'}} @{$position_inputs_S82};
 
@@ -37,7 +36,6 @@ my @nyuID_DR7 = map {$_->{'col0'}} @{$position_inputs};
 my @px_DR7 = map {$_->{'imgx'}} @{$position_inputs};
 my @py_DR7 = map {$_->{'imgy'}} @{$position_inputs};
 my @run_DR7 = map {$_->{'run'}} @{$position_inputs};
-my @rerun_DR7 = map {$_->{'rerun'}} @{$position_inputs};
 my @cam_DR7 = map {$_->{'camcol'}} @{$position_inputs};
 my @field_DR7 = map {$_->{'field'}} @{$position_inputs};
 
@@ -58,8 +56,7 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 					$runN = $run_DR7[$posDR7];
 					$fieldN = $field_DR7[$posDR7];
 					$camN = $cam_DR7[$posDR7];
-				}
-			}
+			
 
 	#run line padding -- 6 digit field but the run number is 1 to 4 digits. (2-5 zeros of padding)
 	if ($runN > 999) {
@@ -103,15 +100,11 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	} else {
 		$field0_S82 = ''; #4 digit fields need no 0s for padding. Also default-ish.
 	}
-	#example:
-	#run 3704, rerun 301, camcol 3, field 91
-	#http://data.sdss3.org/sas/dr9/boss/photoObj/frames/301/3704/3/frame-g-003704-3-0091.fits.bz2
 
 	#Object name string
 	my $fpC_S82 = 'fpC-'.$run0_S82.'-r'.$cam_S82[$posCount].'-'.$field0_S82.$_->{'field'}.'.fit';
 
 	open my $instars, '<', "$nyuID_S82[$posCount].aper.csv" or die "cannot open $nyuID_S82[$posCount].aper.csv $!";
-	
 	my $input_stars = Text::CSV->new({'binary'=>1});
 	$input_stars->column_names($input_stars->getline($instars));
 	my $galaxy_inputs = $input_stars->getline_hr_all($instars);
@@ -138,6 +131,10 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	my $Xg_p_cutmax;
 	my $Yg_p_cutmin;
 	my $Yg_p_cutmax;
+	my $Xg_p_DR7_cutmin;
+	my $Xg_p_DR7_cutmax;
+	my $Yg_p_DR7_cutmin;
+	my $Yg_p_DR7_cutmax;
 	#Distance parameters
 	my $Distance_X; #Xp - Xc
 	my $Distance_Y;	#Yp - Yc
@@ -166,10 +163,8 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	my $Y_checker;
 	
 	
-	#First we need to locate the individual galaxies in the SEXtractor
-	#output.
-	
-	
+	#First we need to locate the individual galaxies in the SEXtractor output.
+	#Stripe 82:
 		@Xp_image = map{$_->{'X_IMAGE'}} grep {$_->{'X_IMAGE'} > ($px_S82[$posCount] - 5) && $_->{'X_IMAGE'} < ($px_S82[$posCount] + 5) && $_->{'Y_IMAGE'} > ($py_S82[$posCount] - 5) && $_->{'Y_IMAGE'} < ($py_S82[$posCount] + 5) } @{$galaxy_inputs};
 		@Yp_image = map{$_->{'Y_IMAGE'}} grep {$_->{'X_IMAGE'} > ($px_S82[$posCount] - 5) && $_->{'X_IMAGE'} < ($px_S82[$posCount] + 5) && $_->{'Y_IMAGE'} > ($py_S82[$posCount] - 5) && $_->{'Y_IMAGE'} < ($py_S82[$posCount] + 5) } @{$galaxy_inputs};
 		@a_p = map{$_->{'A_IMAGE'}} grep {$_->{'X_IMAGE'} > ($px_S82[$posCount] - 5) && $_->{'X_IMAGE'} < ($px_S82[$posCount] + 5) && $_->{'Y_IMAGE'} > ($py_S82[$posCount] - 5) && $_->{'Y_IMAGE'} < ($py_S82[$posCount] + 5) } @{$galaxy_inputs};
@@ -184,7 +179,6 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 		my $Xp = sprintf("%.0f", $Xp_image[0]);
 		my $Yp = sprintf("%.0f", $Yp_image[0]);
 		
-		#new algorithm time
 		my $Xp_cut = sprintf("%.0f", $Xp_cutout/2);
 		my $Yp_cut = sprintf("%.0f", $Yp_cutout/2);
 		
@@ -192,37 +186,35 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 		
 		print "The parent galaxy is located at $Xp,$Yp\n";
 	
-		if ($Xp_cut > $Yp_cut)
-		{
+		if ($Xp_cut > $Yp_cut) {
 			$Yp_cut = $Xp_cut;
-		$Xg_p_cutmin = sprintf("%.0f",$Xp - $Xp_cut);
-		$Xg_p_cutmax = sprintf("%.0f",$Xp + $Xp_cut);
-		$Yg_p_cutmin = sprintf("%.0f",$Yp - $Yp_cut);
-		$Yg_p_cutmax = sprintf("%.0f",$Yp + $Yp_cut);
-		print "Cutout Size $Xp_cut\n";
-			if ( $Xg_p_cutmin >= 0 && $Xg_p_cutmax <= 2048 && $Yg_p_cutmin >= 0 && $Yg_p_cutmax <= 1489)
-			{	
-			print $coutouts "imcopy $nyuID_S82[$posCount]_S82.fits[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
-			print "imcopy $nyuID_S82[$posCount]_S82.fits[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
-			print $DR7 "$nyuID_S82[$posCount],$Xp_cut,$Yp_cut\n";
-			}
-		}
-		
-		else
-		{
+		} else {
 			$Xp_cut = $Yp_cut;
-		$Xg_p_cutmin = sprintf("%.0f",$Xp - $Xp_cut);
-		$Xg_p_cutmax = sprintf("%.0f",$Xp + $Xp_cut);
-		$Yg_p_cutmin = sprintf("%.0f",$Yp - $Yp_cut);
-		$Yg_p_cutmax = sprintf("%.0f",$Yp + $Yp_cut);
-		print "Cutout Size $Xp_cut\n";
-			if ( $Xg_p_cutmin >= 0 && $Xg_p_cutmax <= 2048 && $Yg_p_cutmin >= 0 && $Yg_p_cutmax <= 1489)
-			{	
-			print $coutouts "imcopy $nyuID_S82[$posCount]_S82.fits[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
-			print "imcopy $nyuID_S82[$posCount]_S82.fits[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
-			print $DR7 "$nyuID_S82[$posCount],$Xp_cut,$Yp_cut\n";
-			}
 		}
+			$Xg_p_cutmin = sprintf("%.0f",$Xp - $Xp_cut);
+			$Xg_p_cutmax = sprintf("%.0f",$Xp + $Xp_cut);
+			$Yg_p_cutmin = sprintf("%.0f",$Yp - $Yp_cut);
+			$Yg_p_cutmax = sprintf("%.0f",$Yp + $Yp_cut);
+			print "Cutout Size $Xp_cut\n";
+
+	open my $in_DR7, '<', "$nyuID_DR7[$posDR7].aper.csv" or die "cannot open $nyuID_DR7[$posDR7].aper.csv $!";
+	my $csv_DR7 = Text::CSV->new({'binary'=>1});
+	$csv_DR7->column_names($csv_DR7->getline($in_DR7));
+	while (my $row = $csv_DR7->getline_hr($in_DR7)) {
+		if (($row->{'X_IMAGE'} > $px_DR7[$posDR7] - 5) && ($row->{'X_IMAGE'} < $px_DR7[$posDR7] + 5) && ($row->{'Y_IMAGE'} > $py_DR7[$posDR7] - 5) && ($row->{'Y_IMAGE'} < $py_DR7[$posDR7] + 5)) {
+			$Xg_p_DR7_cutmin = sprintf("%.0f",$row->{'X_IMAGE'} - $Xp_cut);
+			$Xg_p_DR7_cutmax = sprintf("%.0f",$row->{'X_IMAGE'} + $Xp_cut);
+			$Yg_p_DR7_cutmin = sprintf("%.0f",$row->{'Y_IMAGE'} - $Yp_cut);
+			$Yg_p_DR7_cutmax = sprintf("%.0f",$row->{'Y_IMAGE'} + $Yp_cut);
+		}
+		}
+
+			if ( $Xg_p_cutmin >= 0 && $Xg_p_cutmax <= 2048 && $Yg_p_cutmin >= 0 && $Yg_p_cutmax <= 1489) {	
+				print $coutouts "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
+				print "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
+				print $coutouts "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
+				print "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
+			}
 			
 #	Sorting the min and max values to make the correct box size that will be used for center.
 	my @Xvalues = sort{$a <=> $b} ($Xg_p_cutmin,$Xg_p_cutmax);
@@ -239,6 +231,7 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	my $Box_Ymax;
 	
 	print "$posCount\n";
-	
+		}
+	}	
 }
 print "Finished!\n";

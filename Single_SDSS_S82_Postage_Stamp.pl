@@ -110,7 +110,7 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	#Object name string
 	my $fpC_S82 = 'fpC-'.$run0_S82.'-r'.$cam_S82[$posCount].'-'.$field0_S82.$_->{'field'}.'.fit';
 
-	open my $instars, '<', "$fpC_S82.aper.csv" or die "cannot open $fpC_S82.aper.csv $!";
+	open my $instars, '<', "$nyuID_S82[$posCount].aper.csv" or die "cannot open $nyuID_S82[$posCount].aper.csv $!";
 	
 	my $input_stars = Text::CSV->new({'binary'=>1});
 	$input_stars->column_names($input_stars->getline($instars));

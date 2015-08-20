@@ -13,8 +13,63 @@ foreach my $DataRelease (@DataRelease) {
 
 	while (my $row = $csv->getline_hr($input)) {
 		my $nyuID = $row->{col0};
+		my $px = $row->{imgx};
+		my $py = $row->{imgy};
+		my $runN = $row->{run};
+		my $camN = $row->{camcol};
+		my $fieldN = $row->{field};
 		open my $aper, '>', "${nyuID}_$DataRelease.aperture.sex "or die "Cannot open ${nyuID}_$DataRelease.aperture.sex: $!";
 
+		my $run0;
+		my $field0;
+		my $fpC;
+
+		if ($DataRelease == "DR7") {
+			#run line padding -- 6 digit field but the run number is 1 to 4 digits. (2-5 zeros of padding)
+			if ($runN > 999) {
+				$run0 = "00";
+			} elsif ($runN > 999) {
+				$run0 = "000";
+			} elsif ($runN > 9) {
+				$run0 = "0000";
+			} else {
+				$run0 = "00000";
+			}
+
+			#field line padding -- 4 digit field but the field number is 1 to 4 digits. (0-3 zeros of padding)
+			if ($fieldN > 999) {
+				$field0 = "";
+			} elsif ($fieldN > 99) {
+				$field0 = "0";
+			} elsif ($fieldN > 9) {
+				$field0 = "00";
+			} else {
+				$field0 = "000";
+			}
+
+			#Object name string
+			$fpC = 'fpC-'.$run0.$runN.'-r'.$camN.'-'.$field0.$fieldN.'.fit';
+		} elsif ($DataRelease == "S82") {
+			#Getting S82 image filename
+			#spacing and sizing is hard. This will fail in interesting ways if the naming changes.
+			if ($runN == 106) {
+				$run0 = 100006;
+			} else { #run == 206
+				$run0 = 200006;
+			}
+
+			if (($fieldN < 1000) && ($fieldN >= 100)) { #3 digit field, so 1x 0 for padding
+				$field0 = '0';
+			} elsif ($fieldN >= 10) { #2 digit field, so 2x padding
+				$field0 = '00';
+			} elsif ($fieldN < 10) { #1 digit field needs 3x 0 padding
+				$field0 = '000';
+			} else {
+				$field0 = ''; #4 digit fields need no 0s for padding. Also default-ish.
+			}
+			#Object name string
+			$fpC = 'fpC-'.$run0.'-r'.$camN.'-'.$field0.$fieldN.'.fit';
+		}
 		print $aper <<___end___;
 #-------------------------------- Catalog ------------------------------------
  
@@ -88,7 +143,7 @@ WRITE_XML        N              # Write XML file (Y/N)?
 XML_NAME         sex.xml        # Filename for XML output
 ___end___
 
-		print $aper_all "sex $fpC.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
-		print "sex $fpC.fits -c ${nyuID}_$DataRelease.aperture.sex \n";
+		print $aper_all "sex $fpC -c ${nyuID}_$DataRelease.aperture.sex \n";
+		print "sex $fpC -c ${nyuID}_$DataRelease.aperture.sex \n";
 	}	
 }

@@ -52,7 +52,7 @@ my $camN;
 foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	#Getting DR7 image filename
 		foreach my $posDR7 (0 .. scalar @nyuID_DR7 - 1) {
-			if ($nyuID_S82[$posCount] == $nyuID_DR7[$posDR7]) {
+			if ($nyuID_S82[$posCount] eq $nyuID_DR7[$posDR7]) {
 					$runN = $run_DR7[$posDR7];
 					$fieldN = $field_DR7[$posDR7];
 					$camN = $cam_DR7[$posDR7];
@@ -102,9 +102,9 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	}
 
 	#Object name string
-	my $fpC_S82 = 'fpC-'.$run0_S82.'-r'.$cam_S82[$posCount].'-'.$field0_S82.$_->{'field'}.'.fit';
+	my $fpC_S82 = 'fpC-'.$run0_S82.'-r'.$cam_S82[$posCount].'-'.$field0_S82.$field_S82[$posCount].'.fit';
 
-	open my $instars, '<', "$nyuID_S82[$posCount].aper.csv" or die "cannot open $nyuID_S82[$posCount].aper.csv $!";
+	open my $instars, '<', "$nyuID_S82[$posCount]_S82.aper.csv" or die "cannot open $nyuID_S82[$posCount]_S82.aper.csv $!";
 	my $input_stars = Text::CSV->new({'binary'=>1});
 	$input_stars->column_names($input_stars->getline($instars));
 	my $galaxy_inputs = $input_stars->getline_hr_all($instars);
@@ -197,7 +197,7 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 			$Yg_p_cutmax = sprintf("%.0f",$Yp + $Yp_cut);
 			print "Cutout Size $Xp_cut\n";
 
-	open my $in_DR7, '<', "$nyuID_DR7[$posDR7].aper.csv" or die "cannot open $nyuID_DR7[$posDR7].aper.csv $!";
+	open my $in_DR7, '<', "$nyuID_DR7[$posDR7]_DR7.aper.csv" or die "cannot open $nyuID_DR7[$posDR7]_DR7.aper.csv $!";
 	my $csv_DR7 = Text::CSV->new({'binary'=>1});
 	$csv_DR7->column_names($csv_DR7->getline($in_DR7));
 	while (my $row = $csv_DR7->getline_hr($in_DR7)) {

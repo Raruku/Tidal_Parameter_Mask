@@ -24,7 +24,7 @@ foreach my $DataRelease (@DataRelease) {
 		my $field0;
 		my $fpC;
 
-		if ($DataRelease == "DR7") {
+		if ($DataRelease eq "DR7") {
 			#run line padding -- 6 digit field but the run number is 1 to 4 digits. (2-5 zeros of padding)
 			if ($runN > 999) {
 				$run0 = "00";
@@ -49,7 +49,7 @@ foreach my $DataRelease (@DataRelease) {
 
 			#Object name string
 			$fpC = 'fpC-'.$run0.$runN.'-r'.$camN.'-'.$field0.$fieldN.'.fit';
-		} elsif ($DataRelease == "S82") {
+		} elsif ($DataRelease eq "S82") {
 			#Getting S82 image filename
 			#spacing and sizing is hard. This will fail in interesting ways if the naming changes.
 			if ($runN == 106) {

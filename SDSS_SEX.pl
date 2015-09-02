@@ -18,7 +18,7 @@ foreach my $DataRelease (@DataRelease) {
 		my $runN = $row->{run};
 		my $camN = $row->{camcol};
 		my $fieldN = $row->{field};
-		open my $aper, '>', "${nyuID}_$DataRelease.aperture.sex "or die "Cannot open ${nyuID}_$DataRelease.aperture.sex: $!";
+		open my $aper, '>', "${nyuID}_$DataRelease.aperture.sex" or die "Cannot open ${nyuID}_$DataRelease.aperture.sex: $!";
 
 		my $run0;
 		my $field0;
@@ -46,9 +46,9 @@ foreach my $DataRelease (@DataRelease) {
 			} else {
 				$field0 = "000";
 			}
-
 			#Object name string
 			$fpC = 'fpC-'.$run0.$runN.'-r'.$camN.'-'.$field0.$fieldN.'.fit';
+
 		} elsif ($DataRelease eq "S82") {
 			#Getting S82 image filename
 			#spacing and sizing is hard. This will fail in interesting ways if the naming changes.
@@ -143,7 +143,7 @@ WRITE_XML        N              # Write XML file (Y/N)?
 XML_NAME         sex.xml        # Filename for XML output
 ___end___
 
-		print $aper_all "sex $fpC -c ${nyuID}_$DataRelease.aperture.sex \n";
-		print "sex $fpC -c ${nyuID}_$DataRelease.aperture.sex \n";
+		print $aper_all "sex $fpC -c ${nyuID}_$DataRelease.aperture.sex\n";
+		print "sex $fpC -c ${nyuID}_$DataRelease.aperture.sex\n";
 	}	
 }

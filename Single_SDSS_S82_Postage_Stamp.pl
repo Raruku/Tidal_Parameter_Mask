@@ -206,15 +206,17 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 			$Xg_p_DR7_cutmax = sprintf("%.0f",$row->{'X_IMAGE'} + $Xp_cut);
 			$Yg_p_DR7_cutmin = sprintf("%.0f",$row->{'Y_IMAGE'} - $Yp_cut);
 			$Yg_p_DR7_cutmax = sprintf("%.0f",$row->{'Y_IMAGE'} + $Yp_cut);
-		}
+			}
 		}
 
-			if ( $Xg_p_cutmin >= 0 && $Xg_p_cutmax <= 2048 && $Yg_p_cutmin >= 0 && $Yg_p_cutmax <= 1489) {	
-				print $coutouts "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
-				print "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
-				print $coutouts "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
-				print "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
-			}
+		if ($Xg_p_cutmin > 0 && $Xg_p_cutmax < 2048 && $Yg_p_cutmin > 0 && $Yg_p_cutmax < 1489 && $Xg_p_DR7_cutmin > 0 && $Xg_p_DR7_cutmax < 2048 && $Yg_p_DR7_cutmin > 0 && $Yg_p_DR7_cutmax < 1489) {	
+			print $coutouts "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
+			print "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
+			print $coutouts "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
+			print "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
+		} else {
+			print "Galaxy out of range.\n";
+		}
 			
 #	Sorting the min and max values to make the correct box size that will be used for center.
 	my @Xvalues = sort{$a <=> $b} ($Xg_p_cutmin,$Xg_p_cutmax);

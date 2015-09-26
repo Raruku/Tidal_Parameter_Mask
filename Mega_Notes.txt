@@ -1,0 +1,8 @@
+The tidal parameter for both DR7 and S82 seem to have a large offset.  The reason are listed below:
+
+1) More counts
+  >
+
+
+2) difference in background
+

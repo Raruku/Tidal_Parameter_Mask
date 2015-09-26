@@ -13,3 +13,4 @@ DEEP Images
 10) Tidal parameter
 11) Tidal model parameter
 12) Corrected Tidal parameter
+13) Compare the tidal parameters

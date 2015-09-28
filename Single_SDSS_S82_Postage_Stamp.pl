@@ -212,26 +212,15 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 		if ($Xg_p_cutmin > 0 && $Xg_p_cutmax < 2048 && $Yg_p_cutmin > 0 && $Yg_p_cutmax < 1489 && $Xg_p_DR7_cutmin > 0 && $Xg_p_DR7_cutmax < 2048 && $Yg_p_DR7_cutmin > 0 && $Yg_p_DR7_cutmax < 1489) {	
 			print $coutouts "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
 			print "imcopy $fpC_S82"."[$Xg_p_cutmin:$Xg_p_cutmax,$Yg_p_cutmin:$Yg_p_cutmax] p$nyuID_S82[$posCount]_S82.fits\n";
+			#bias in DR7 is 1000, but is 0 in S82. This makes them the same. (very large Tp/Tm/Tc effect)
+			print $coutouts "imarith p$nyuID_S82[$posCount]_S82.fits + 1000 p$nyuID_S82[$posCount]_S82.fits\n";
+			print "imarith p$nyuID_S82[$posCount]_S82.fits + 1000 p$nyuID_S82[$posCount]_S82.fits\n";
 			print $coutouts "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
 			print "imcopy $fpC_DR7"."[$Xg_p_DR7_cutmin:$Xg_p_DR7_cutmax,$Yg_p_DR7_cutmin:$Yg_p_DR7_cutmax] p$nyuID_DR7[$posDR7]_DR7.fits\n";
 		} else {
 			print "Galaxy out of range.\n";
 		}
-			
-#	Sorting the min and max values to make the correct box size that will be used for center.
-	my @Xvalues = sort{$a <=> $b} ($Xg_p_cutmin,$Xg_p_cutmax);
-	my @Yvalues = sort{$a <=> $b} ($Yg_p_cutmin,$Yg_p_cutmax);
 
-
-#	the largest box size for both galaxies using the GALAPGOS cutout 
-	my $Length_X_image = sprintf("%.0f",(abs($Xvalues[0] - $Xvalues[1])));
-	my $Length_Y_image = sprintf("%.0f",(abs($Yvalues[0] - $Yvalues[1])));
-
-	my $Box_Xmin;
-	my $Box_Xmax;
-	my $Box_Ymin;
-	my $Box_Ymax;
-	
 	print "$posCount\n";
 		}
 	}	

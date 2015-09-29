@@ -12,7 +12,7 @@ use PDL::Fit::Polynomial qw(fitpoly1d);
 $ENV{PGPLOT_FOREGROUND} = "black";
 $ENV{PGPLOT_BACKGROUND} = "white";
 
-
+#Required you to run and attach S82_Sizes.csv to result_DR7.csv
 # This script is used to take SDSS x and y outputs and use them as inputs
 # for cutting out postage stamps.
 

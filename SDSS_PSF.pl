@@ -37,8 +37,8 @@ foreach my $DataRelease (@DataRelease) {
 		local $, = ' ';
 
 		#PSF cutout and subtraction
-		print $PSF_CUT "imcopy psf.$_->{'col0'}$DataRelease.fits[12:42,12:42] cpsf.$_->{'col0'}$DataRelease.fits";
-		print $PSF_CUT "imarith cpsf.$_->{'col0'}$DataRelease.fits - 1000 scpsf.$_->{'col0'}$DataRelease.fits";
+		print $PSF_CUT "imcopy psf.$_->{'col0'}$DataRelease.fits[12:42,12:42] cpsf.$_->{'col0'}$DataRelease.fits\n";
+		print $PSF_CUT "imarith cpsf.$_->{'col0'}$DataRelease.fits - 1000 scpsf.$_->{'col0'}$DataRelease.fits\n";
 
 		my $runN = $_->{'run'};
 		my $fieldN = $_->{'field'};
@@ -67,12 +67,12 @@ foreach my $DataRelease (@DataRelease) {
 			}
 
 			#PSF wget list
-			print $psflist "http://das.sdss.org/imaging/$runN/$_->{'rerun'}/objcs/$_->{'camcol'}/psField-00$_->{'run'}-$_->{'camcol'}-0$_->{'field'}.fit";
-			print "http://das.sdss.org/imaging/$runN/$_->{'rerun'}/objcs/$_->{'camcol'}/psField-$run0$runN-$_->{'camcol'}-$field0$fieldN.fit";
+			print $psflist "http://das.sdss.org/imaging/$runN/$_->{'rerun'}/objcs/$_->{'camcol'}/psField-00$_->{'run'}-$_->{'camcol'}-0$_->{'field'}.fit\n";
+			print "http://das.sdss.org/imaging/$runN/$_->{'rerun'}/objcs/$_->{'camcol'}/psField-$run0$runN-$_->{'camcol'}-$field0$fieldN.fit\n";
 
 			#PSF image
-			print $PSFimages 'read_PSF',"psField".'-'.$run0.$runN.'-'.$_->{'camcol'}.'-'.$field0.$fieldN.'.fit','3',$_->{'imgx'},$_->{'imgy'},'psf'.'.'.$_->{'col0'}.$DataRelease.'.fits';
-			print 'read_PSF',"psField".'-'.'00'.$_->{'run'}.'-'.$_->{'camcol'}.'-'.'0'.$_->{'field'}.'.'.'fit','3',$_->{'imgx'},$_->{'imgy'},'psf'.'.'.$_->{'col0'}.$DataRelease.'.fits';
+			print $PSFimages 'read_PSF',"psField".'-'.$run0.$runN.'-'.$_->{'camcol'}.'-'.$field0.$fieldN.'.fit','3',$_->{'imgx'},$_->{'imgy'},'psf.'.$_->{'col0'}.$DataRelease.".fits\n";
+			print 'read_PSF',"psField".'-'.$run0.$runN.'-'.$_->{'camcol'}.'-'.$field0.$fieldN.'.fit','3',$_->{'imgx'},$_->{'imgy'},'psf.'.$_->{'col0'}.$DataRelease.".fits\n";
 		}
 		if ($DataRelease == "_S82") {
 			#spacing and sizing is hard. This will fail in interesting ways if the naming changes.
@@ -93,11 +93,11 @@ foreach my $DataRelease (@DataRelease) {
 			}
 
 			#PSF wget list
-			print $psflist "http://das.sdss.org/imaging/$run0/$_->{'rerun'}/objcs/$_->{'camcol'}/"psField"-$run0-$_->{'camcol'}-$field0$_->{'field'}.fit";
-			print "http://das.sdss.org/imaging/$run0/$_->{'rerun'}/objcs/$_->{'camcol'}/"psField"-$run0-$_->{'camcol'}-$field0$_->{'field'}.fit";
+			print $psflist "http://das.sdss.org/imaging/$run0/$_->{'rerun'}/objcs/$_->{'camcol'}/psField-$run0-$_->{'camcol'}-$field0$_->{'field'}.fit\n";
+			print "http://das.sdss.org/imaging/$run0/$_->{'rerun'}/objcs/$_->{'camcol'}/psField-$run0-$_->{'camcol'}-$field0$_->{'field'}.fit\n";
 			#PSF image
-			print $PSFimages 'read_PSF',"psField".'-'.$run0.'-'.$_->{'camcol'}.'-'.$field0.$_->{'field'}.'.'.'fit','3',$_->{'imgx'},$_->{'imgy'},'psf'.'.'.$_->{'col0'}.$DataRelease.'.'.'fits';
-	print 'read_PSF',"psField".'-'.$run0.'-'.$_->{'camcol'}.'-'.$field0.$_->{'field'}.'.'.'fit','3',$_->{'imgx'},$_->{'imgy'},'psf'.'.'.$_->{'col0'}.$DataRelease.'.'.'fits';
+			print $PSFimages 'read_PSF',"psField".'-'.$run0.'-'.$_->{'camcol'}.'-'.$field0.$_->{'field'}.'.'.'fit','3',$_->{'imgx'},$_->{'imgy'},'psf'.'.'.$_->{'col0'}.$DataRelease.'.'."fits\n";
+	print 'read_PSF',"psField".'-'.$run0.'-'.$_->{'camcol'}.'-'.$field0.$_->{'field'}.'.'.'fit','3',$_->{'imgx'},$_->{'imgy'},'psf'.'.'.$_->{'col0'}.$DataRelease.'.'."fits\n";
 		}
 	}
 }

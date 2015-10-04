@@ -1,0 +1,9 @@
+The tidal parameter for both DR7 and S82 seem to have a large offset.  The reason are listed below:
+
+1) More counts
+  > need to normalized the total amount between both images.
+  > need to get rid of all other counts besides the tidal signauters pixels.
+
+
+2) difference in background
+

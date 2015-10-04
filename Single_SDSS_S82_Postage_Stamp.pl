@@ -2,12 +2,12 @@
 use strict;
 use warnings;
 use Text::CSV;
-use Cwd qw(cwd);
+#use Cwd qw(cwd);
 #use String::Scanf;
 use Statistics::OLS;
 use PDL;
 use PDL::Constants qw(PI);
-use PDL::Fit::Polynomial qw(fitpoly1d);
+#use PDL::Fit::Polynomial qw(fitpoly1d);
 
 # This script is used to take SDSS x and y outputs and use them as inputs.
 # for cutting out postage stamps. Stripe 82 sizes are applied to DR7 images.

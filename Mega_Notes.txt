@@ -6,4 +6,4 @@ The tidal parameter for both DR7 and S82 seem to have a large offset.  The reaso
 
 
 2) difference in background
-
+  > Data Release 7 has a bias of ~1000, while Stripe 82 images go down to 0. That is, the darkest pixels in a DR7 image are ~1000 (maybe ~1100) units higher than those in a Stripe 82 image. Even though the additional counts (see 1) mean that the brightest parts of Stripe 82 images are brighter!

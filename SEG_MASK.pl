@@ -20,7 +20,7 @@ my @ID = map {$_->{'col0'}} @{$parameter};
 my @Re = map {$_->{'R50_r'}} @{$parameter}; #For tidal masking
 
 open my $Maker, '>', "Mask_Maker.cl" or die "cannot open Mask_Maker.cl: $!"; # run in IRAF
-open my $displ, '>', "display_seg.cl" or die "cannot open display_seg.cl: $!"; # run in IRAF
+#open my $displ, '>', "display_seg.cl" or die "cannot open display_seg.cl: $!"; # run in IRAF
 foreach my $posCount (0 .. scalar @ID - 1) {
 	if ((-e "p${ID[$posCount]}_S82.fits") && (-e "p${ID[$posCount]}_S82.seg.csv")) { #cutout and segmaps exist
 		print "p${ID[$posCount]}_S82.fits\n";
@@ -50,12 +50,8 @@ foreach my $posCount (0 .. scalar @ID - 1) {
 		#Open your image from a list
 		my $image = rfits("p${ID[$posCount]}_S82.fits");
 
-		print $displ "displ p${ID[$posCount]}_S82.fits 1\n"; #displ
-		print $displ "imexam\n"; #make mask_1a for GALFIT 1=bad 0= good
-
-		#Display a image using the perl
-		#my $normal = PDL::Graphics2D->new('PGPLOT', {'device' => '/xs'});
-		#$normal->fits_imag($image);
+		#print $displ "displ p${ID[$posCount]}_S82.fits 1\n"; #displ
+		#print $displ "imexam\n"; #make mask_1a for GALFIT 1=bad 0= good
 
 		#Acquiring the dimensions in an image
 		my @dim = dims($image);

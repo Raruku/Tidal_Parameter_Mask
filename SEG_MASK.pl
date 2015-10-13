@@ -122,7 +122,7 @@ foreach my $posCount (0 .. scalar @ID - 1) {
 					print $Maker "imarith p${ID[$posCount]}_S82.mask_1b.fits * p${ID[$posCount]}_DR7.fits Good.p${ID[$posCount]}_DR7.fits\n";
 					print $Maker "imcopy p${ID[$posCount]}_S82.mask_1a.fits p${ID[$posCount]}_DR7.mask_1a.fits\n";
 					print $Maker "imcopy p${ID[$posCount]}_S82.mask_1b.fits p${ID[$posCount]}_DR7.mask_1b.fits\n";
-					print $Maker "imcopy Good.p${ID[$posCount]}_S82.fits MASKED.p${ID[$posCount]}_DR7.fits\n";
+					print $Maker "imcopy Good.p${ID[$posCount]}_DR7.fits MASKED.p${ID[$posCount]}_DR7.fits\n";
 					print $Maker "imcopy p${ID[$posCount]}_S82.mask_1a.fits FMASK.p${ID[$posCount]}_DR7.fits\n";
 					print $Maker "imcopy p${ID[$posCount]}_S82.mask_1b.fits FMASK_b.p${ID[$posCount]}_DR7.fits\n";
 

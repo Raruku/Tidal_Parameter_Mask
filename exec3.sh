@@ -1,12 +1,10 @@
 perl SBACKGROUND_REPLACER_DR7.pl
-perl GALFIT_INPUTS_DR7.pl
+perl SBACKGROUND_REPLACER_S82.pl
+perl GALFIT_INPUTS.pl
 rm galfit.*
 perl Tidal_mask_DR7.pl
 chmod 755 GALFIT_BATCH_DR7.sh
 chmod 755 GALFIT_MBATCH_DR7.sh
-perl SBACKGROUND_REPLACER_S82.pl
-perl GALFIT_INPUTS_S82.pl
-rm galfit.*
 perl Tidal_mask_S82.pl
 chmod 755 GALFIT_BATCH_S82.sh
 chmod 755 GALFIT_MBATCH_S82.sh

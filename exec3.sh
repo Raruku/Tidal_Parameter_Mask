@@ -10,6 +10,5 @@ chmod 755 GALFIT_BATCH_S82.sh
 chmod 755 GALFIT_MBATCH_S82.sh
 ./GALFIT_BATCH_DR7.sh
 ./GALFIT_BATCH_S82.sh
-perl Critical_Tidal_Parameter_DR7.pl
-perl Critical_Tidal_Parameter_S82.pl
+perl Critical_Tidal_Parameter.pl
 echo "run NOISE.cl files, then GALFIT_MBATCH.sh files then Tidal_Model_Tc files"

@@ -20,13 +20,12 @@ my $position_inputs = $input_positions->getline_hr_all($inPositions);
 my @nyuID = map {$_->{'col0'}} @{$position_inputs};
 
 open my $T_plot, '>', "Tc$DataRelease.csv" or die "cannot open Tc$DataRelease.csv $!"; # Tp table
-print $T_plot "ID,Fit_Type,Tp,Tm,Tc\n";
-#open my $displ, '>', "displ$DataRelease.cl" or die "cannot open displ.cl $!"; #Galaxy image check
+print $T_plot "ID$DataRelease,Fit_Type$DataRelease,Tp$DataRelease,Tm$DataRelease,Tc$DataRelease\n";
 
 foreach my $posCount (0 .. scalar @nyuID - 1) {
 foreach my $galaxy_fits (@galaxy_fits) { #iterate over all fit types
 if ((-e "mp${nyuID[$posCount]}$DataRelease.model_$galaxy_fits.fits") && (-e "p${nyuID[$posCount]}$DataRelease.model_$galaxy_fits.fits")) { #Successful modelling?
-print "p${nyuID[$posCount]}$DataRelease.fits\n";
+print "p${nyuID[$posCount]}$DataRelease.fits ($galaxy_fits)\n";
 
 my $Good_values = rfits("background.p${nyuID[$posCount]}$DataRelease.fits");
 my $average = avg($Good_values);
@@ -64,11 +63,11 @@ $residual_M -> wfits("residual.mp${nyuID[$posCount]}$DataRelease"."_$galaxy_fits
 #-------------------------
 #Science frame calculations with random good sky values 
 my $Tp = avg(abs((($Gimage/($Mimage)) - 1)->where($full_mask)));
-print "The tidal parameter using GALFIT from van Dokkum et al. 2005 Tp  = ", $Tp, "\n"; 
+print "Image tidal parameter using GALFIT from van Dokkum et al. 2005 Tp  = ", $Tp, "\n"; 
 
 #Tal's model parameter
 my $Tm = avg(abs((($Gimage_1/($Mimage_1)) - 1)->where($full_mask)));
-print "The tidal parameter using GALFIT from van Dokkum et al. 2005 Tm  = ", $Tm, "\n"; 
+print "Model tidal parameter using GALFIT from van Dokkum et al. 2005 Tm  = ", $Tm, "\n"; 
 
 #Critical tidal parameter
 my $Tc = (($Tp)**2 -($Tm)**2 );
@@ -77,7 +76,7 @@ if ($Tc < 0)
 	$Tc = 0; #assumes that Tc = 0 is preferably to undefined.
 }
 $Tc = (sprintf("%.6f",(($Tc)**0.5)));
-print "The critical tidal parameter for ${nyuID[$posCount]}$DataRelease is $Tc\n";
+print "The critical tidal parameter for ${nyuID[$posCount]}$DataRelease ($galaxy_fits) is $Tc\n";
 
 print $T_plot "${nyuID[$posCount]},$galaxy_fits,$Tp$DataRelease,$Tm$DataRelease,$Tc$DataRelease\n";
 

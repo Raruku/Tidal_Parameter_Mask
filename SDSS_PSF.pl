@@ -43,7 +43,7 @@ foreach my $DataRelease (@DataRelease) {
 		my $runN = $_->{'run'};
 		my $fieldN = $_->{'field'};
 
-		if ($DataRelease == "_DR7") {
+		if ($DataRelease eq "_DR7") {
 			#run line padding -- 6 digit field but the run number is 1 to 4 digits. (2-5 zeros of padding)
 			if ($runN > 999) {
 				$run0 = "00";
@@ -74,7 +74,7 @@ foreach my $DataRelease (@DataRelease) {
 			print $PSFimages 'read_PSF',"psField".'-'.$run0.$runN.'-'.$_->{'camcol'}.'-'.$field0.$fieldN.'.fit','3',$_->{'imgx'},$_->{'imgy'},'psf.'.$_->{'col0'}.$DataRelease.".fits\n";
 			print 'read_PSF',"psField".'-'.$run0.$runN.'-'.$_->{'camcol'}.'-'.$field0.$fieldN.'.fit','3',$_->{'imgx'},$_->{'imgy'},'psf.'.$_->{'col0'}.$DataRelease.".fits\n";
 		}
-		if ($DataRelease == "_S82") {
+		if ($DataRelease eq "_S82") {
 			#spacing and sizing is hard. This will fail in interesting ways if the naming changes.
 			if ($_->{'run'} == 106) {
 				$run0 = 100006;

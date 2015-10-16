@@ -17,7 +17,7 @@ foreach my $DataRelease (@DataRelease) {
 	my $position = $positions->getline_hr_all($inGalPositions);
 	my @nyuID = map {$_->{'col0'}} @{$position};
 	my @ZPR = map {$_->{'Zero_point_r'}} @{$position};
-	if ($DataRelease == "S82") {
+	if ($DataRelease eq "S82") {
 		my @bkg = map {$_->{'global_background_r'}+1000} @{$position};
 	} else {
 		my @bkg = map {$_->{'global_background_r'}} @{$position};
@@ -100,7 +100,7 @@ P) 0                   # Choose: 0=optimize, 1=model, 2=imgblock, 3=subcomps
 ___end___
 
 
-my $hack = "bmodel.p$nyuID[$galCount]_$DataRelease"+"_a.fits"; #this is what happens when someone comes up with bad variable name ideas.
+my $hack = "bmodel.p$nyuID[$galCount]_$DataRelease"."_a.fits"; #this is what happens when someone comes up with bad variable name ideas.
 
 print $mgalfita  <<___end___;
 ================================================================================
@@ -173,7 +173,7 @@ P) 0                   # Choose: 0=optimize, 1=model, 2=imgblock, 3=subcomps
 # ------------------------------------------------------------------------------
 ___end___
 
-$hack = "bmodel.p$nyuID[$galCount]_$DataRelease"+"_aa.fits"; #again this is what happens when someone comes up with bad variable name ideas.
+$hack = "bmodel.p$nyuID[$galCount]_$DataRelease"."_aa.fits"; #again this is what happens when someone comes up with bad variable name ideas.
 
 print $mgalfitaa  <<___end___;
 ================================================================================

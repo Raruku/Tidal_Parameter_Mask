@@ -244,12 +244,14 @@ print $mgalfita  <<___end___;
 
 ___end___
 
+my $mag_aa = $mag[$posCount]-0.3;
+my $Re_aa = $Re[$posCount]/2;
 
 print $galfitaa  <<___end___;
 # Component number: $N[$posCount], exp fit
  0) $type[$posCount]         #  Component type
  1) $px[$posCount] $py[$posCount] 0 0  #  Position x, y
- 3) $mag[$posCount]  1          #  Integrated magnitude 
+ 3) $mag_aa  1          #  Integrated magnitude 
  4) $Re[$posCount]   1         #  R_e (effective radius)   [pix]
  5) 1.0000      1          #  Sersic index n (de Vaucouleurs n=4) 
  6) 0.0000      0          #     ----- 
@@ -264,8 +266,8 @@ print $galfitaa  <<___end___;
 # Component number: $N[$posCount], de Vaucouleurs fit
  0) $type[$posCount]         #  Component type
  1) $px[$posCount] $py[$posCount] 0 0  #  Position x, y
- 3) $mag[$posCount]  1          #  Integrated magnitude 
- 4) $Re[$posCount]   1         #  R_e (effective radius)   [pix]
+ 3) $mag_aa  1          #  Integrated magnitude 
+ 4) $Re_aa   1         #  R_e (effective radius)   [pix]
  5) 4.0000      1          #  Sersic index n (de Vaucouleurs n=4) 
  6) 0.0000      0          #     ----- 
  7) 0.0000      0          #     ----- 
@@ -279,7 +281,7 @@ print $mgalfitaa  <<___end___;
 # Component number: $N[$posCount], exp fit
  0) $type[$posCount]         #  Component type
  1) $px[$posCount] $py[$posCount] 0 0  #  Position x, y
- 3) $mag[$posCount]  1          #  Integrated magnitude 
+ 3) $mag_aa  1          #  Integrated magnitude 
  4) $Re[$posCount]   1         #  R_e (effective radius)   [pix]
  5) 1.0000      1          #  Sersic index n (de Vaucouleurs n=4) 
  6) 0.0000      0          #     ----- 
@@ -294,8 +296,8 @@ print $mgalfitaa  <<___end___;
 # Component number: $N[$posCount], de Vaucouleurs fit
  0) $type[$posCount]         #  Component type
  1) $px[$posCount] $py[$posCount] 0 0  #  Position x, y
- 3) $mag[$posCount]  1          #  Integrated magnitude 
- 4) $Re[$posCount]   1         #  R_e (effective radius)   [pix]
+ 3) $mag_aa  1          #  Integrated magnitude 
+ 4) $Re_aa   1         #  R_e (effective radius)   [pix]
  5) 4.0000      1          #  Sersic index n (de Vaucouleurs n=4) 
  6) 0.0000      0          #     ----- 
  7) 0.0000      0          #     ----- 

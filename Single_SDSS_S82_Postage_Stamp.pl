@@ -61,7 +61,7 @@ foreach my $posCount (0 .. scalar @nyuID_S82 - 1) {
 	#run line padding -- 6 digit field but the run number is 1 to 4 digits. (2-5 zeros of padding)
 	if ($runN > 999) {
 		$run0_DR7 = "00";
-	} elsif ($runN > 999) {
+	} elsif ($runN > 99) {
 		$run0_DR7 = "000";
 	} elsif ($runN > 9) {
 		$run0_DR7 = "0000";

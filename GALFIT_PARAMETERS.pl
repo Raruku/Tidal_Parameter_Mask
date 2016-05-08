@@ -42,7 +42,7 @@ foreach my $DataRelease (@DataRelease) {
 				my @GAL_e = map {$_->{'axisRatio'}} @{$position_inputs_1};
 				my @GAL_theta = map {$_->{'PosAng'}} @{$position_inputs_1};
 
-				open my $file_in1, '<', "p${nyuID[$posCount]}_$DataRelease.aper.csv" or die "Unable to p${nyuID[$posCount]}_$DataRelease.aper.csv: $!\n";
+				open my $file_in1, '<', "p${nyuID[$posCount]}_$DataRelease.seg.csv" or die "Unable to p${nyuID[$posCount]}_$DataRelease.seg.csv: $!\n";
 				my $input_positions_2 = Text::CSV->new({'binary'=>1});
 				$input_positions_2->column_names($input_positions_2->getline($file_in1));
 				my $position_inputs_2 = $input_positions_2->getline_hr_all($file_in1);
@@ -71,5 +71,5 @@ foreach my $DataRelease (@DataRelease) {
 			}
 		}
 	}
-}
 print "Del_parameters_$DataRelease.csv filled.\n";
+}

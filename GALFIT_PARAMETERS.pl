@@ -60,14 +60,14 @@ foreach my $DataRelease (@DataRelease) {
 							if (($SEX_x[$SEXCount] <= $GAL_x[$gCount] + 5) && (($SEX_y[$SEXCount] <= $GAL_y[$gCount] + 5) && ($SEX_y[$SEXCount] >= $GAL_y[$gCount] - 5))
 							&& ($SEX_x[$SEXCount] >= $GAL_x[$gCount] - 5) && (($SEX_y[$SEXCount] <= $GAL_y[$gCount] + 5) && ($SEX_y[$SEXCount] >= $GAL_y[$gCount] - 5)) ) {
 									print $T_plot "${nyuID[$posCount]},$SEX_MAG[$SEXCount],$SEX_MAGErr[$SEXCount],$GAL_MAG[$gCount],$Re[$posCount],$GAL_Re[$gCount],$Kron[$SEXCount],$galaxy_fits,$SERSIC[$gCount],$GAL_x[$gCount],$GAL_y[$gCount],$SEX_x[$SEXCount],$SEX_y[$SEXCount],$SEX_e[$SEXCount],$SEX_theta[$SEXCount],$GAL_e[$gCount],$GAL_theta[$gCount],";
+							if (!($galaxy_fits eq "14") and !($galaxy_fits eq "aa")) {
+								print $T_plot ",,,,,,,,,,,,,,,";
+								}
 							}
-						if (!($galaxy_fits eq "14") and !($galaxy_fits eq "aa")) {
-							print $T_plot ",,,,,,,,,,,,,,,";
-							}
-						print $T_plot "\n";
-						last;
+						#last;
 						}
 					}
+				print $T_plot "\n";
 			}
 		}
 	}
